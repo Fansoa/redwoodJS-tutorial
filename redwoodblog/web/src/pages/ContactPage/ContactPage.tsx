@@ -1,23 +1,26 @@
 import { Metadata } from '@redwoodjs/web'
+import { Toaster } from '@redwoodjs/web/toast'
 import {
   FieldError,
   Form,
+  FormError,
   Label,
   TextField,
   TextAreaField,
-  Submit,
+  Submit
 } from '@redwoodjs/forms'
 import useContactForm from './hooks/useContactForm'
 
-
 const ContactPage = () => {
-  const { onSubmit, formConfig } = useContactForm()
+  const { onSubmit, formConfig, loading, error } = useContactForm()
 
   return (
     <>
       <Metadata title="Contact" description="Contact page" />
 
-      <Form onSubmit={onSubmit} config={formConfig}>
+      <Toaster/>
+      <Form onSubmit={onSubmit} config={formConfig} error={error}>
+        <FormError error={error} wrapperClassName="form-error" />
         <Label name="name" errorClassName="error">
           Name
         </Label>
@@ -35,10 +38,6 @@ const ContactPage = () => {
           name="email"
           validation={{
             required: true,
-            pattern: {
-              value: /^[^@]+@[^.]+\..+$/,
-              message: 'Please enter a valid email address',
-            }
           }}
           errorClassName="error"
         />
@@ -54,7 +53,7 @@ const ContactPage = () => {
         />
         <FieldError name="message" className="error" />
 
-        <Submit>Save</Submit>
+        <Submit disabled={loading}>Save</Submit>
       </Form>
     </>
   )
