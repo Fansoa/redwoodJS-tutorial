@@ -6,25 +6,18 @@ import {
   TextField,
   TextAreaField,
   Submit,
-  SubmitHandler,
 } from '@redwoodjs/forms'
+import useContactForm from './hooks/useContactForm'
 
-interface FormValues {
-  name: number
-  email: string
-  message: string
-}
 
 const ContactPage = () => {
-  const onSubmit: SubmitHandler<FormValues> = (data) => {
-    console.log(data)
-  }
+  const { onSubmit, formConfig } = useContactForm()
 
   return (
     <>
       <Metadata title="Contact" description="Contact page" />
 
-      <Form onSubmit={onSubmit} config={{ mode: 'onBlur' }}>
+      <Form onSubmit={onSubmit} config={formConfig}>
         <Label name="name" errorClassName="error">
           Name
         </Label>
